@@ -30,16 +30,22 @@ def _assistant_turn(response: str, code: str | None) -> str:
 
 
 def evaluate(
-    spec: ModelSpec,
+    spec: ModelSpec | None,  # unused by the loop; callers without a spec (training callback) pass None
     backend: Backend,
     bench: Benchmark,
     executor: CadExecutor,
     style: str,
     retries: int,
     limit: int | None = None,
+    spread: bool = False,
 ) -> tuple[dict, list[dict], dict]:
+    """``limit`` keeps the first N samples (smoke tests); with ``spread`` it keeps N samples
+    evenly spaced over the benchmark instead, so every group stays represented (used for
+    the fixed subset scored during training)."""
     samples = bench.load()
-    if limit:
+    if limit and spread and len(samples) > limit:
+        samples = [samples[int(i * len(samples) / limit)] for i in range(limit)]
+    elif limit:
         samples = samples[:limit]
     system = bench.system_prompt(style)
     base = [prompts.build_messages(s.task, system) for s in samples]

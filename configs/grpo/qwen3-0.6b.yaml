@@ -13,6 +13,14 @@ report_to: [tensorboard]
 seed: 0
 chatter_penalty: 0.05           # subtracted when the answer contains prose outside the code block
 
+eval_during_training:           # benchmark scores vs. step, logged next to the loss (src/t2c/train/callbacks.py)
+  every_steps: 100              # 0 turns it off
+  benchmarks: [cqe, deepcad]    # add cadprompt, synth or t2cb for more curves (about a minute each per evaluation)
+  limit: 48                     # samples per benchmark: a fixed, evenly spread subset
+  max_new_tokens: 768
+  batch_size: 32
+  at_start: true                # also score the untouched model at step 0
+
 reward:                         # see src/t2c/cad/reward.py
   r_parsed: 0.1                 # script parses but raises / times out
   r_ran: 0.2                    # runs but leaves no solid in `result`

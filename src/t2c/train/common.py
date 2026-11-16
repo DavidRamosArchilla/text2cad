@@ -72,3 +72,8 @@ def is_main_process() -> bool:
     import os
 
     return int(os.environ.get("RANK", os.environ.get("LOCAL_RANK", "0"))) == 0
+
+
+def bench_eval_enabled(cfg: dict) -> bool:
+    """Is in-training benchmark scoring (train/callbacks.py) switched on in this config?"""
+    return int((cfg.get("eval_during_training") or {}).get("every_steps") or 0) > 0

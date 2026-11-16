@@ -122,6 +122,45 @@ def render_prompt(tokenizer, messages: list[dict], chat_template_kwargs: dict | 
     return tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True, **(chat_template_kwargs or {}))
 
 
+def hf_generate(
+    model,
+    tokenizer,
+    conversations: list[list[dict]],
+    chat_template_kwargs: dict | None = None,
+    max_new_tokens: int = 2048,
+    temperature: float = 0.0,
+    top_p: float = 1.0,
+    batch_size: int = 16,
+    autocast_bf16: bool = False,
+) -> list[str]:
+    """Batched ``model.generate`` over chat conversations (greedy unless ``temperature`` > 0).
+
+    Shared by the ``hf`` backend and by the in-training benchmark callback, which calls it on
+    the model being trained. Uses ``no_grad`` rather than ``inference_mode``: tensors a
+    module caches during an inference-mode forward cannot be reused in a later training
+    step. ``autocast_bf16`` is for fp32 training weights (bf16 compute, as in training).
+    """
+    import torch
+
+    texts = [render_prompt(tokenizer, c, chat_template_kwargs) for c in conversations]
+    order = sorted(range(len(texts)), key=lambda i: len(texts[i]))  # similar lengths together: less padding
+    out = [""] * len(texts)
+    gen = {"max_new_tokens": max_new_tokens, "do_sample": temperature > 0, "use_cache": True}
+    if gen["do_sample"]:
+        gen.update(temperature=temperature, top_p=top_p)
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+    device = next(model.parameters()).device
+    use_autocast = autocast_bf16 and device.type == "cuda"
+    for i in range(0, len(order), batch_size):
+        idx = order[i : i + batch_size]
+        enc = tokenizer([texts[j] for j in idx], return_tensors="pt", padding=True, padding_side="left", add_special_tokens=False).to(device)
+        with torch.no_grad(), torch.autocast(device_type=device.type, dtype=torch.bfloat16, enabled=use_autocast):
+            ids = model.generate(**enc, **gen, pad_token_id=pad_id)
+        for j, row in zip(idx, ids, strict=True):
+            out[j] = tokenizer.decode(row[enc["input_ids"].shape[1] :], skip_special_tokens=True)
+    return out
+
+
 def configure_vllm_env() -> None:
     """Environment defaults that make vLLM start on a bare compute node.
 
@@ -189,22 +228,17 @@ class HFBackend(Backend):
         self.model.eval()
 
     def generate(self, conversations: list[list[dict]]) -> list[str]:
-        torch = self.torch
-        texts = [render_prompt(self.tokenizer, c, self.spec.chat_template_kwargs) for c in conversations]
-        order = sorted(range(len(texts)), key=lambda i: len(texts[i]))
-        out = [""] * len(texts)
-        s = self.spec.sampling
-        gen = {"max_new_tokens": s.get("max_tokens", 2048), "do_sample": s.get("temperature", 0.0) > 0}
-        if gen["do_sample"]:
-            gen.update(temperature=s["temperature"], top_p=s.get("top_p", 1.0))
-        for i in range(0, len(order), self.batch_size):
-            idx = order[i : i + self.batch_size]
-            enc = self.tokenizer([texts[j] for j in idx], return_tensors="pt", padding=True, add_special_tokens=False).to(self.model.device)
-            with torch.inference_mode():
-                ids = self.model.generate(**enc, **gen, pad_token_id=self.tokenizer.pad_token_id)
-            for j, row in zip(idx, ids, strict=True):
-                out[j] = self.tokenizer.decode(row[enc["input_ids"].shape[1] :], skip_special_tokens=True)
-        return out
+        sampling = self.spec.sampling
+        return hf_generate(
+            self.model,
+            self.tokenizer,
+            conversations,
+            self.spec.chat_template_kwargs,
+            max_new_tokens=sampling.get("max_tokens", 2048),
+            temperature=sampling.get("temperature", 0.0),
+            top_p=sampling.get("top_p", 1.0),
+            batch_size=self.batch_size,
+        )
 
     def close(self) -> None:
         del self.model

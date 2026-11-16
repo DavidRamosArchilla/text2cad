@@ -238,6 +238,34 @@ Training curves (loss, reward, valid rate, IoU) go to TensorBoard under
 `outputs/train/<run>/`; add `wandb` or `trackio` to `report_to` in a config if you use them.
 GRPO also writes `reward_log.jsonl` (one line per step) so runs can be compared without a UI.
 
+```bash
+tensorboard --logdir outputs/train --port 6006      # on the login node
+ssh -L 6006:localhost:6006 <cluster>                # on your laptop, then open localhost:6006
+```
+
+**Benchmark scores against training step.** The `eval_during_training` block in every
+SFT and GRPO config makes the model being trained answer a fixed subset of each listed
+benchmark every `every_steps` steps (and once before the first step). The scores are
+logged through the trainer, so they appear in the same tracker as the loss as
+`eval/<benchmark>_ir`, `eval/<benchmark>_iou_all`, `eval/<benchmark>_iou` and, for
+CadQueryEval, `eval/cqe_pass_rate`; they are also appended to `<run>/bench_log.jsonl`.
+
+- It is a monitoring signal, not a result: 48 samples per benchmark, greedy decoding with
+  plain `generate`, one attempt. Points along one run are comparable with each other; for
+  numbers to report, run `t2c eval` on a checkpoint (`scripts/eval_checkpoints.sh`).
+- Cost, measured with Qwen3-0.6B on an H200: 2 to 2.5 minutes per evaluation with three
+  benchmarks (121 prompts), close to 4 minutes for the untrained model at step 0. The
+  configs therefore list two benchmarks (`cqe`, `deepcad`); expect more for larger
+  models. `eval/bench_seconds` is logged so you can see it. A larger `batch_size` did not
+  help; the knobs that matter are `benchmarks`, `limit`, `max_new_tokens` and
+  `every_steps`. Switch it off with `eval_during_training.every_steps=0` on the command
+  line.
+- It cannot break a run: any error inside it is printed, the callback disables itself and
+  training continues. Benchmarks that are not prepared on the machine are skipped.
+- Tested on a GPU with Qwen3-0.6B in short SFT and GRPO runs (the GRPO one with vLLM
+  rollouts on the same GPU); not yet with larger models or multi-GPU training. Each
+  evaluation prints one `[bench-eval] step N: ...` line in the job log.
+
 ## Training
 
 **Stage 1 — SFT** (`t2c train sft configs/sft/*.yaml`). Full fine-tuning with TRL's
@@ -336,7 +364,7 @@ src/t2c/bench/      benchmark adapters + CadQueryEval scorer validation
 src/t2c/infer/      model specs and backends (vLLM, transformers, OpenAI-compatible API)
 src/t2c/evalrun/    evaluation loop with error-feedback retries
 src/t2c/results/    results registry and report
-src/t2c/train/      SFT and GRPO
+src/t2c/train/      SFT, GRPO and the in-training benchmark callback
 configs/            models, data recipes, training configs, cluster profiles, published references
 scripts/            bootstrap, env, Slurm launcher, checkpoint sweep
 tests/              verifier, sandbox, eval loop, dataset assembly, generator (pytest)

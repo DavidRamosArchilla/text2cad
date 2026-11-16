@@ -97,6 +97,8 @@ def main(config_path: str, overrides: list[str] | None = None) -> None:
     from transformers import AutoModelForCausalLM, AutoTokenizer
     from trl import GRPOConfig, GRPOTrainer
 
+    from . import callbacks
+
     rows, data_dir = read_built(cfg["data"]["dataset"], "train")
     if cfg["data"].get("max_train_samples"):
         rows = rows[: int(cfg["data"]["max_train_samples"])]
@@ -125,7 +127,17 @@ def main(config_path: str, overrides: list[str] | None = None) -> None:
         **cfg["grpo"],
     )
     reward = CadReward(executor, reward_cfg, chatter_penalty=float(cfg.get("chatter_penalty", 0.05)), log_path=out / "reward_log.jsonl")
-    trainer = GRPOTrainer(model=model, reward_funcs=reward, args=args, train_dataset=dataset, processing_class=tokenizer)
+    bench_eval = callbacks.from_config(cfg, out, executor, tokenizer, chat_kwargs)
+    trainer = GRPOTrainer(
+        model=model,
+        reward_funcs=reward,
+        args=args,
+        train_dataset=dataset,
+        processing_class=tokenizer,
+        callbacks=[bench_eval] if bench_eval else None,
+    )
+    if bench_eval:
+        bench_eval.trainer = trainer
     try:
         trainer.train(resume_from_checkpoint=cfg.get("resume_from_checkpoint"))
     finally:

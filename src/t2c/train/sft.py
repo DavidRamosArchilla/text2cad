@@ -32,12 +32,22 @@ def _encode(rows: list[dict], tokenizer, chat_kwargs: dict, max_length: int) -> 
 
 
 def main(config_path: str, overrides: list[str] | None = None) -> None:
+    cfg = common.load_config(config_path, overrides)
+    # CAD workers for in-training benchmark scoring: started before the GPU stack loads,
+    # and only on the main process of a multi-GPU run.
+    executor = None
+    if common.bench_eval_enabled(cfg) and common.is_main_process():
+        from ..cad.sandbox import CadExecutor
+
+        executor = CadExecutor(workers=cfg.get("cad_workers")).start()
+
     import torch
     from datasets import Dataset
     from transformers import AutoModelForCausalLM, AutoTokenizer
     from trl import SFTConfig, SFTTrainer
 
-    cfg = common.load_config(config_path, overrides)
+    from . import callbacks
+
     out = common.run_dir(cfg)
     init, base_model, parent_meta = common.resolve_init(cfg)
     chat_kwargs = cfg.get("chat_template_kwargs") or {}
@@ -77,14 +87,22 @@ def main(config_path: str, overrides: list[str] | None = None) -> None:
         seed=int(cfg.get("seed", 0)),
         **cfg["train"],
     )
+    bench_eval = callbacks.from_config(cfg, out, executor, tokenizer, chat_kwargs)
     trainer = SFTTrainer(
         model=model,
         args=args,
         train_dataset=Dataset.from_list(train),
         eval_dataset=Dataset.from_list(val) if val else None,
         processing_class=tokenizer,
+        callbacks=[bench_eval] if bench_eval else None,
     )
-    trainer.train(resume_from_checkpoint=cfg.get("resume_from_checkpoint"))
+    if bench_eval:
+        bench_eval.trainer = trainer
+    try:
+        trainer.train(resume_from_checkpoint=cfg.get("resume_from_checkpoint"))
+    finally:
+        if executor is not None:
+            executor.close()
     if common.is_main_process():
         trainer.save_model(str(out / "final"))
         tokenizer.save_pretrained(str(out / "final"))

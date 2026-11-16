@@ -13,6 +13,14 @@ weights_dtype: float32          # full fine-tuning: keep fp32 master weights, au
 report_to: [tensorboard]        # add "wandb" or "trackio" if you use them
 seed: 0
 
+eval_during_training:           # benchmark scores vs. step, logged next to the loss (src/t2c/train/callbacks.py)
+  every_steps: 1000             # 0 turns it off
+  benchmarks: [cqe, deepcad]    # add cadprompt, synth or t2cb for more curves (about a minute each per evaluation)
+  limit: 48                     # samples per benchmark: a fixed, evenly spread subset
+  max_new_tokens: 768
+  batch_size: 32
+  at_start: true                # also score the untouched model at step 0
+
 train:                          # passed to trl.SFTConfig / transformers.TrainingArguments
   num_train_epochs: 2
   per_device_train_batch_size: 32
