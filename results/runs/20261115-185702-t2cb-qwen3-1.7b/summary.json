@@ -1,0 +1,105 @@
+{
+ "run_id": "20261115-185702-t2cb-qwen3-1.7b",
+ "created": "2026-11-15T18:57:02",
+ "benchmark": "t2cb",
+ "bench_sha1": "4cb8bbe5cdf3",
+ "model": {
+  "name": "qwen3-1.7b",
+  "model": "Qwen/Qwen3-1.7B",
+  "backend": "vllm",
+  "prompt_style": "protocol",
+  "chat_template_kwargs": {
+   "enable_thinking": false
+  },
+  "sampling": {
+   "temperature": 0.0,
+   "max_tokens": 2048
+  },
+  "stage": "base",
+  "base_model": null,
+  "train_run": null,
+  "step": null,
+  "engine": {},
+  "api": {}
+ },
+ "metrics": {
+  "overall": {
+   "n": 302,
+   "harness_errors": 0,
+   "ir": 0.9105960264900662,
+   "ir_first": 0.9403973509933775
+  },
+  "groups": {
+   "L1/geo": {
+    "n": 60,
+    "harness_errors": 0,
+    "ir": 0.85,
+    "ir_first": 0.9333333333333333
+   },
+   "L1/seq": {
+    "n": 60,
+    "harness_errors": 0,
+    "ir": 0.85,
+    "ir_first": 0.8833333333333333
+   },
+   "L2/geo": {
+    "n": 61,
+    "harness_errors": 0,
+    "ir": 0.8688524590163934,
+    "ir_first": 0.9016393442622951
+   },
+   "L2/seq": {
+    "n": 61,
+    "harness_errors": 0,
+    "ir": 0.9836065573770492,
+    "ir_first": 0.9836065573770492
+   },
+   "L3/geo": {
+    "n": 30,
+    "harness_errors": 0,
+    "ir": 1.0,
+    "ir_first": 1.0
+   },
+   "L3/seq": {
+    "n": 30,
+    "harness_errors": 0,
+    "ir": 1.0,
+    "ir_first": 1.0
+   }
+  }
+ },
+ "errors": {
+  "first_attempt": {
+   "syntax_error": 63,
+   "runtime_error": 221,
+   "ok": 18
+  },
+  "final": {
+   "runtime_error": 218,
+   "ok": 27,
+   "syntax_error": 57
+  }
+ },
+ "protocol": {
+  "prompt_style": "protocol",
+  "retries": 3,
+  "system_prompt_sha1": "df0499002f",
+  "res": 256,
+  "n_points": 30000,
+  "timeout": 60.0
+ },
+ "timing": {
+  "generate_s": 251.5,
+  "verify_s": 6.6,
+  "total_s": 258.1
+ },
+ "tags": [],
+ "note": "",
+ "partial": false,
+ "host": "n001",
+ "git": {
+  "commit": null,
+  "dirty": false
+ },
+ "t2c_version": "0.1.0"
+}

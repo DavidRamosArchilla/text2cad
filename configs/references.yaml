@@ -1,0 +1,62 @@
+# Published numbers shown next to our own runs in the report.
+# They are context, not like-for-like results: each entry says how it differs from what we run.
+# Transcribed by hand from the cited sources -- re-check against the source before citing them.
+
+t2cb:
+  source: "Text2CAD-Bench, arXiv 2605.18430, Table 1 (and the dataset card's leaderboard)"
+  caveat: >-
+    Published on the full 600-part benchmark with the authors' prompt (5 in-context examples)
+    and up to 3 error-feedback retries. We can only run the public 151-part prompt sample,
+    and only IR until ground truth is obtained from the authors. Scores date from early 2026.
+  rows:
+    # leaderboard aggregate (L1 40% / L2 40% / L3 20%, geo+seq)
+    - {name: "GPT-5.2",            group: overall, ir: 0.306, iou: 0.45, cd: 63.97}
+    - {name: "Claude-4.5-Sonnet",  group: overall, ir: 0.413, iou: 0.43, cd: 66.90}
+    - {name: "DeepSeek-V3.2",      group: overall, ir: 0.297, iou: 0.37, cd: 76.25}
+    - {name: "GLM-4.7",            group: overall, ir: 0.350, iou: 0.34, cd: 84.98}
+    - {name: "Qwen3-max",          group: overall, ir: 0.432, iou: 0.28, cd: 99.21}
+    - {name: "Text2CAD (specialist)",      group: overall, ir: 0.070, iou: 0.05, cd: 248.66}
+    - {name: "Text2CADQuery (specialist)", group: overall, ir: 0.510, iou: 0.04, cd: 250.27}
+    - {name: "CADFusion (specialist)",     group: overall, ir: 0.605, iou: 0.03, cd: 224.35}
+    # per level, Table 1
+    - {name: "GPT-5.2", group: "L1/geo", ir: 0.111, iou: 0.59, cd: 44.31}
+    - {name: "GPT-5.2", group: "L2/geo", ir: 0.200, iou: 0.50, cd: 60.38}
+    - {name: "GPT-5.2", group: "L3/geo", ir: 0.680, iou: 0.23, cd: 93.46}
+    - {name: "GPT-5.2", group: "L1/seq", ir: 0.195, iou: 0.62, cd: 48.73}
+    - {name: "GPT-5.2", group: "L2/seq", ir: 0.316, iou: 0.47, cd: 78.21}
+    - {name: "GPT-5.2", group: "L3/seq", ir: 0.740, iou: 0.25, cd: 82.94}
+    - {name: "Claude-4.5-Sonnet", group: "L1/geo", ir: 0.203, iou: 0.54, cd: 52.62}
+    - {name: "Claude-4.5-Sonnet", group: "L2/geo", ir: 0.437, iou: 0.48, cd: 71.66}
+    - {name: "Claude-4.5-Sonnet", group: "L3/geo", ir: 0.700, iou: 0.25, cd: 70.13}
+    - {name: "Claude-4.5-Sonnet", group: "L1/seq", ir: 0.253, iou: 0.57, cd: 57.08}
+    - {name: "Claude-4.5-Sonnet", group: "L2/seq", ir: 0.535, iou: 0.46, cd: 75.65}
+    - {name: "Claude-4.5-Sonnet", group: "L3/seq", ir: 0.750, iou: 0.23, cd: 84.82}
+    - {name: "Qwen3-max", group: "L1/geo", ir: 0.214, iou: 0.40, cd: 84.54}
+    - {name: "Qwen3-max", group: "L2/geo", ir: 0.334, iou: 0.29, cd: 107.40}
+    - {name: "Qwen3-max", group: "L3/geo", ir: 0.920, iou: 0.07, cd: 148.58}
+    - {name: "Qwen3-max", group: "L1/seq", ir: 0.301, iou: 0.48, cd: 68.02}
+    - {name: "Qwen3-max", group: "L2/seq", ir: 0.491, iou: 0.32, cd: 113.09}
+    - {name: "Qwen3-max", group: "L3/seq", ir: 0.930, iou: 0.12, cd: 97.42}
+    - {name: "Text2CADQuery (specialist)", group: "L1/geo", ir: 0.440, iou: 0.07, cd: 227.46}
+    - {name: "Text2CADQuery (specialist)", group: "L2/geo", ir: 0.670, iou: 0.04, cd: 269.11}
+    - {name: "Text2CADQuery (specialist)", group: "L3/geo", ir: 0.800, iou: 0.02, cd: 255.42}
+
+cadprompt:
+  source: "CADPrompt / CADCodeVerify, arXiv 2410.05340 (ICLR 2025), Table 2, single-shot 'Generated' rows"
+  caveat: >-
+    Only the compile rate is comparable (reported here as IR = 1 - compile rate). The paper's
+    geometric metrics use ICP alignment, 1000 points and medians, so they are not listed.
+    2024-era models.
+  rows:
+    - {name: "GPT-4 (zero-shot)",     group: overall, ir: 0.080}
+    - {name: "GPT-4 (few-shot)",      group: overall, ir: 0.040}
+    - {name: "Gemini (zero-shot)",    group: overall, ir: 0.150}
+    - {name: "CodeLlama (zero-shot)", group: overall, ir: 0.355}
+
+cqe:
+  source: "CadQueryEval leaderboard (drwahl/cadqueryeval), recomputed from the per-attempt table shipped with the dataset"
+  caveat: >-
+    Same tasks and prompt as our 'protocol' runs; our scorer re-implements the official checks
+    without open3d and agrees with the published verdicts on a validation sample
+    (`t2c bench validate-cqe`). Rows are loaded automatically from the dataset.
+  rows: []

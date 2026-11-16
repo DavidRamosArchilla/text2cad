@@ -1,0 +1,14 @@
+# Qwen3-8B with its reasoning mode on: slower, shows what "thinking" buys a base model.
+name: qwen3-8b-think
+model: Qwen/Qwen3-8B
+backend: vllm
+stage: base
+prompt_style: protocol
+chat_template_kwargs:
+  enable_thinking: true
+sampling:
+  temperature: 0.6            # Qwen's recommended sampling for thinking mode
+  top_p: 0.95
+  max_tokens: 6144
+engine:
+  max_model_len: 12288

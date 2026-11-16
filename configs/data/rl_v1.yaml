@@ -1,0 +1,14 @@
+# RL prompt pool v1 (prompt + ground-truth mesh).  Build with:  t2c data build configs/data/rl_v1.yaml
+# Small on purpose: verifier-reward RL saturates on a few thousand prompts, and a narrower,
+# harder pool generalises better than a huge easy one. Bias it towards the target
+# distribution (mm-scale parts) rather than towards what the SFT stage already masters.
+name: rl/v1
+kind: rl
+seed: 0
+holdout: ["bench:cadprompt", "t2cq:val", "t2cq:test"]
+
+train:
+  - {source: synth, split: train, n: 3000}
+  - {source: t2cq, split: train, n: 2000, max_code_chars: 3000}
+  - {source: cadcoder, split: train_high, n: 1000}
+val: []

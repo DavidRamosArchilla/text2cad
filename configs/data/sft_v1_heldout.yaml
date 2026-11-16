@@ -1,0 +1,16 @@
+# sft/v1 with three procedural part families never shown in training (a sweep, a loft and a
+# ribbed bracket). The `synth` benchmark is grouped by family, so its per-group table then
+# reads as seen-family vs unseen-family accuracy: the honest measure of whether the model
+# learned CadQuery or memorised 17 templates.
+#   t2c data build configs/data/sft_v1_heldout.yaml
+name: sft/v1-heldout
+kind: sft
+seed: 0
+holdout: ["bench:cadprompt", "t2cq:val", "t2cq:test"]
+train:
+  - {source: t2cq, split: train}
+  - {source: cadcoder, split: train_high}
+  - {source: synth, split: train, exclude_families: [swept_elbow, loft, gusset_bracket]}
+val:
+  - {source: t2cq, split: val, n: 400}
+  - {source: synth, split: val, n: 200}

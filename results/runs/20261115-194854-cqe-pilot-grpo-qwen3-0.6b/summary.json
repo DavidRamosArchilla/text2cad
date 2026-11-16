@@ -1,0 +1,99 @@
+{
+ "run_id": "20261115-194854-cqe-pilot-grpo-qwen3-0.6b",
+ "created": "2026-11-15T19:48:54",
+ "benchmark": "cqe",
+ "bench_sha1": "309b355ccbfe",
+ "model": {
+  "name": "pilot-grpo-qwen3-0.6b",
+  "model": "/home/d.ramos/text2cad/outputs/train/pilot-grpo-qwen3-0.6b/final",
+  "backend": "vllm",
+  "prompt_style": "native",
+  "chat_template_kwargs": {
+   "enable_thinking": false
+  },
+  "sampling": {
+   "temperature": 0.0,
+   "max_tokens": 2048
+  },
+  "stage": "grpo",
+  "base_model": "Qwen/Qwen3-0.6B",
+  "train_run": "pilot-grpo-qwen3-0.6b",
+  "step": 100,
+  "engine": {},
+  "api": {}
+ },
+ "metrics": {
+  "overall": {
+   "n": 25,
+   "harness_errors": 0,
+   "ir": 0.36,
+   "ir_first": 0.36,
+   "iou": 0.41869275525211147,
+   "iou_all": 0.26796336336135135,
+   "iou_median": 0.348683213294592,
+   "cd": 180.8631833994421,
+   "cd_median": 177.73642690598473,
+   "dim_err_median": 0.37721749010198025,
+   "pass_rate": 0.12,
+   "watertight_rate": 0.64,
+   "single_component_rate": 0.6,
+   "bbox_accurate_rate": 0.28,
+   "volume_passed_rate": 0.12,
+   "chamfer_passed_rate": 0.24,
+   "hausdorff_passed_rate": 0.16
+  },
+  "groups": {
+   "all": {
+    "n": 25,
+    "harness_errors": 0,
+    "ir": 0.36,
+    "ir_first": 0.36,
+    "iou": 0.41869275525211147,
+    "iou_all": 0.26796336336135135,
+    "iou_median": 0.348683213294592,
+    "cd": 180.8631833994421,
+    "cd_median": 177.73642690598473,
+    "dim_err_median": 0.37721749010198025,
+    "pass_rate": 0.12,
+    "watertight_rate": 0.64,
+    "single_component_rate": 0.6,
+    "bbox_accurate_rate": 0.28,
+    "volume_passed_rate": 0.12,
+    "chamfer_passed_rate": 0.24,
+    "hausdorff_passed_rate": 0.16
+   }
+  }
+ },
+ "errors": {
+  "first_attempt": {
+   "ok": 16,
+   "runtime_error": 9
+  },
+  "final": {
+   "ok": 16,
+   "runtime_error": 9
+  }
+ },
+ "protocol": {
+  "prompt_style": "native",
+  "retries": 0,
+  "system_prompt_sha1": "07bf77d967",
+  "res": 256,
+  "n_points": 30000,
+  "timeout": 60.0
+ },
+ "timing": {
+  "generate_s": 0.7,
+  "verify_s": 20.6,
+  "total_s": 21.2
+ },
+ "tags": [],
+ "note": "",
+ "partial": false,
+ "host": "n001",
+ "git": {
+  "commit": null,
+  "dirty": false
+ },
+ "t2c_version": "0.1.0"
+}

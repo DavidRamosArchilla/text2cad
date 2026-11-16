@@ -1,0 +1,93 @@
+{
+ "run_id": "20261115-185704-cadprompt-qwen3-0.6b",
+ "created": "2026-11-15T18:57:04",
+ "benchmark": "cadprompt",
+ "bench_sha1": "0b1f45306edc",
+ "model": {
+  "name": "qwen3-0.6b",
+  "model": "Qwen/Qwen3-0.6B",
+  "backend": "vllm",
+  "prompt_style": "protocol",
+  "chat_template_kwargs": {
+   "enable_thinking": false
+  },
+  "sampling": {
+   "temperature": 0.0,
+   "max_tokens": 2048
+  },
+  "stage": "base",
+  "base_model": null,
+  "train_run": null,
+  "step": null,
+  "engine": {},
+  "api": {}
+ },
+ "metrics": {
+  "overall": {
+   "n": 400,
+   "harness_errors": 0,
+   "ir": 0.9975,
+   "ir_first": 0.9975,
+   "iou": 0.1219482421875,
+   "iou_all": 0.00030487060546875,
+   "iou_median": 0.1219482421875,
+   "cd": 124.29716098691634,
+   "cd_median": 124.29716098691634,
+   "dim_err_median": 1.45277004225202
+  },
+  "groups": {
+   "abstract": {
+    "n": 200,
+    "harness_errors": 0,
+    "ir": 1.0,
+    "ir_first": 1.0
+   },
+   "measured": {
+    "n": 200,
+    "harness_errors": 0,
+    "ir": 0.995,
+    "ir_first": 0.995,
+    "iou": 0.1219482421875,
+    "iou_all": 0.0006097412109375,
+    "iou_median": 0.1219482421875,
+    "cd": 124.29716098691634,
+    "cd_median": 124.29716098691634,
+    "dim_err_median": 1.45277004225202
+   }
+  }
+ },
+ "errors": {
+  "first_attempt": {
+   "runtime_error": 355,
+   "syntax_error": 44,
+   "ok": 1
+  },
+  "final": {
+   "runtime_error": 355,
+   "syntax_error": 44,
+   "ok": 1
+  }
+ },
+ "protocol": {
+  "prompt_style": "protocol",
+  "retries": 0,
+  "system_prompt_sha1": "07bf77d967",
+  "res": 256,
+  "n_points": 30000,
+  "timeout": 60.0
+ },
+ "timing": {
+  "generate_s": 8.7,
+  "verify_s": 1.9,
+  "total_s": 10.6
+ },
+ "tags": [],
+ "note": "",
+ "partial": false,
+ "host": "n001",
+ "git": {
+  "commit": null,
+  "dirty": false
+ },
+ "t2c_version": "0.1.0"
+}

@@ -1,0 +1,101 @@
+{
+ "run_id": "20261115-190347-cadprompt-qwen3-4b",
+ "created": "2026-11-15T19:03:47",
+ "benchmark": "cadprompt",
+ "bench_sha1": "0b1f45306edc",
+ "model": {
+  "name": "qwen3-4b",
+  "model": "Qwen/Qwen3-4B",
+  "backend": "vllm",
+  "prompt_style": "protocol",
+  "chat_template_kwargs": {
+   "enable_thinking": false
+  },
+  "sampling": {
+   "temperature": 0.0,
+   "max_tokens": 2048
+  },
+  "stage": "base",
+  "base_model": null,
+  "train_run": null,
+  "step": null,
+  "engine": {},
+  "api": {}
+ },
+ "metrics": {
+  "overall": {
+   "n": 400,
+   "harness_errors": 0,
+   "ir": 0.6125,
+   "ir_first": 0.6125,
+   "iou": 0.3231508613584107,
+   "iou_all": 0.12522095877638414,
+   "iou_median": 0.21293010337910817,
+   "cd": 203.43734710104297,
+   "cd_median": 183.27999254983135,
+   "dim_err_median": 1.7461234614054095
+  },
+  "groups": {
+   "abstract": {
+    "n": 200,
+    "harness_errors": 0,
+    "ir": 0.655,
+    "ir_first": 0.655,
+    "iou": 0.16808247149306849,
+    "iou_all": 0.057988452665108624,
+    "iou_median": 0.1206207275390625,
+    "cd": 263.47299925332675,
+    "cd_median": 251.5844520732153,
+    "dim_err_median": 4.260478930144578
+   },
+   "measured": {
+    "n": 200,
+    "harness_errors": 0,
+    "ir": 0.5700000000000001,
+    "ir_first": 0.5700000000000001,
+    "iou": 0.44756619741316195,
+    "iou_all": 0.19245346488765963,
+    "iou_median": 0.32850266918237586,
+    "cd": 155.26920758351298,
+    "cd_median": 84.34145091931647,
+    "dim_err_median": 0.13620722756961007
+   }
+  }
+ },
+ "errors": {
+  "first_attempt": {
+   "ok": 155,
+   "runtime_error": 239,
+   "no_solid": 1,
+   "syntax_error": 5
+  },
+  "final": {
+   "ok": 155,
+   "runtime_error": 239,
+   "no_solid": 1,
+   "syntax_error": 5
+  }
+ },
+ "protocol": {
+  "prompt_style": "protocol",
+  "retries": 0,
+  "system_prompt_sha1": "07bf77d967",
+  "res": 256,
+  "n_points": 30000,
+  "timeout": 60.0
+ },
+ "timing": {
+  "generate_s": 11.2,
+  "verify_s": 6.7,
+  "total_s": 17.9
+ },
+ "tags": [],
+ "note": "",
+ "partial": false,
+ "host": "n001",
+ "git": {
+  "commit": null,
+  "dirty": false
+ },
+ "t2c_version": "0.1.0"
+}

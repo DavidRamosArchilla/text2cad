@@ -1,0 +1,10 @@
+# Ablation / smoke test: RL pool from DeepCAD-derived prompts only.
+#   t2c data build configs/data/rl_deepcad.yaml
+name: rl/deepcad
+kind: rl
+seed: 0
+holdout: ["bench:cadprompt", "t2cq:val", "t2cq:test"]
+train:
+  - {source: t2cq, split: train, n: 3000, max_code_chars: 3000}
+  - {source: cadcoder, split: train_high, n: 1000}
+val: []

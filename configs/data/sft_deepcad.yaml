@@ -1,0 +1,13 @@
+# Ablation: DeepCAD-derived data only (no procedural mm-scale parts). This is the recipe
+# of the published "specialist" models that score near zero on Text2CAD-Bench; training it
+# next to sft/v1 shows how much the target-distribution data matters.
+#   t2c data build configs/data/sft_deepcad.yaml
+name: sft/deepcad
+kind: sft
+seed: 0
+holdout: ["bench:cadprompt", "t2cq:val", "t2cq:test"]
+train:
+  - {source: t2cq, split: train}
+  - {source: cadcoder, split: train_high}
+val:
+  - {source: t2cq, split: val, n: 400}

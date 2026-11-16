@@ -1,0 +1,89 @@
+{
+ "run_id": "20261115-193324-deepcad-pilot-sft-qwen3-0.6b",
+ "created": "2026-11-15T19:33:24",
+ "benchmark": "deepcad",
+ "bench_sha1": "748e96ccccb9",
+ "model": {
+  "name": "pilot-sft-qwen3-0.6b",
+  "model": "/home/d.ramos/text2cad/outputs/train/pilot-sft-qwen3-0.6b/final",
+  "backend": "vllm",
+  "prompt_style": "native",
+  "chat_template_kwargs": {
+   "enable_thinking": false
+  },
+  "sampling": {
+   "temperature": 0.0,
+   "max_tokens": 2048
+  },
+  "stage": "sft",
+  "base_model": "Qwen/Qwen3-0.6B",
+  "train_run": "pilot-sft-qwen3-0.6b",
+  "step": 624,
+  "engine": {},
+  "api": {}
+ },
+ "metrics": {
+  "overall": {
+   "n": 500,
+   "harness_errors": 0,
+   "ir": 0.04400000000000004,
+   "ir_first": 0.04400000000000004,
+   "iou": 0.5908294813832786,
+   "iou_all": 0.5648329842024143,
+   "iou_median": 0.6910884338017751,
+   "cd": 101.4044711372881,
+   "cd_median": 19.59538175945231,
+   "dim_err_median": 0.000974893835161827
+  },
+  "groups": {
+   "all": {
+    "n": 500,
+    "harness_errors": 0,
+    "ir": 0.04400000000000004,
+    "ir_first": 0.04400000000000004,
+    "iou": 0.5908294813832786,
+    "iou_all": 0.5648329842024143,
+    "iou_median": 0.6910884338017751,
+    "cd": 101.4044711372881,
+    "cd_median": 19.59538175945231,
+    "dim_err_median": 0.000974893835161827
+   }
+  }
+ },
+ "errors": {
+  "first_attempt": {
+   "ok": 478,
+   "syntax_error": 6,
+   "no_result": 2,
+   "runtime_error": 14
+  },
+  "final": {
+   "ok": 478,
+   "syntax_error": 6,
+   "no_result": 2,
+   "runtime_error": 14
+  }
+ },
+ "protocol": {
+  "prompt_style": "native",
+  "retries": 0,
+  "system_prompt_sha1": "07bf77d967",
+  "res": 256,
+  "n_points": 30000,
+  "timeout": 60.0
+ },
+ "timing": {
+  "generate_s": 7.3,
+  "verify_s": 17.0,
+  "total_s": 24.4
+ },
+ "tags": [],
+ "note": "",
+ "partial": false,
+ "host": "n001",
+ "git": {
+  "commit": null,
+  "dirty": false
+ },
+ "t2c_version": "0.1.0"
+}

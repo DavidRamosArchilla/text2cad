@@ -1,0 +1,15 @@
+# Template for a frontier model behind any OpenAI-compatible API (OpenAI, OpenRouter, ...).
+# Copy, edit, export the key, then:  t2c eval --model configs/models/<your-file>.yaml
+name: frontier-model-name        # how it appears in the report
+model: provider/model-id         # the id the API expects
+backend: openai
+stage: api
+prompt_style: protocol
+api:
+  base_url: https://openrouter.ai/api/v1   # remove this line for api.openai.com
+  api_key_env: OPENROUTER_API_KEY          # name of the env var holding your key (never put the key here)
+  concurrency: 8
+  params:                                  # passed verbatim to chat.completions.create
+    max_tokens: 4096
+    # temperature: 0
+    # reasoning_effort: medium

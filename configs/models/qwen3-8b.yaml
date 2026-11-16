@@ -1,0 +1,11 @@
+# Base model, no fine-tuning. Evaluated with each benchmark's own published prompt.
+name: qwen3-8b
+model: Qwen/Qwen3-8B
+backend: vllm
+stage: base
+prompt_style: protocol
+chat_template_kwargs:
+  enable_thinking: false      # direct answer; see qwen3-8b-think.yaml for the reasoning variant
+sampling:
+  temperature: 0.0
+  max_tokens: 2048

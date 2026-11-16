@@ -1,0 +1,49 @@
+# Stage 2 -- GRPO with the CAD verifier as reward, starting from the SFT checkpoint.
+#   scripts/submit.sh --gpus 1 --cpus 48 --time 1-00:00:00 --name grpo-q3-1.7b -- t2c train grpo configs/grpo/qwen3-1.7b.yaml
+# CPU cores matter here: every step executes (prompts x generations) CadQuery scripts.
+run_name: grpo-qwen3-1.7b-v1
+init_from: train/sft-qwen3-1.7b-v1/final      # relative to $T2C_OUTPUT_DIR, or an absolute path, or a HF id
+base_model: Qwen/Qwen3-1.7B                   # only used for lineage if init_from is not a t2c checkpoint
+
+data:
+  dataset: rl/v1                # built by `t2c data build configs/data/rl_v1.yaml`
+
+weights_dtype: float32
+report_to: [tensorboard]
+seed: 0
+chatter_penalty: 0.05           # subtracted when the answer contains prose outside the code block
+
+reward:                         # see src/t2c/cad/reward.py
+  r_parsed: 0.1                 # script parses but raises / times out
+  r_ran: 0.2                    # runs but leaves no solid in `result`
+  r_valid: 0.3                  # valid solid ...
+  w_iou: 0.5                    # ... + 0.5 * IoU
+  w_cd: 0.1                     #     + 0.1 * (1 - CD/cd_max)
+  w_dim: 0.1                    #     + 0.1 * exp(-dim_err/dim_scale)   (absolute size / orientation)
+  res: 64                       # voxel grid for the training-time IoU (benchmarks use 256)
+  n_points: 4000
+  timeout: 20
+
+grpo:                           # passed to trl.GRPOConfig
+  max_steps: 400
+  num_generations: 8            # group size
+  per_device_train_batch_size: 64   # completions per step = 8 prompts x 8 generations
+  gradient_accumulation_steps: 1
+  learning_rate: 2.0e-6
+  lr_scheduler_type: constant_with_warmup
+  warmup_steps: 10
+  max_grad_norm: 0.5
+  max_completion_length: 1024
+  temperature: 1.0
+  beta: 0.0                     # no KL to a frozen reference model (saves memory); raise if the policy drifts
+  mask_truncated_completions: true
+  bf16: true
+  gradient_checkpointing: true
+  use_vllm: true                # rollouts with vLLM sharing the training GPU
+  vllm_mode: colocate
+  vllm_gpu_memory_utilization: 0.25
+  vllm_max_model_length: 4096
+  logging_steps: 5
+  save_strategy: steps
+  save_steps: 50
+  save_total_limit: 10

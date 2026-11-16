@@ -1,0 +1,277 @@
+{
+ "run_id": "20261115-193352-synth-pilot-sft-qwen3-0.6b",
+ "created": "2026-11-15T19:33:52",
+ "benchmark": "synth",
+ "bench_sha1": "acdc7ef4a434",
+ "model": {
+  "name": "pilot-sft-qwen3-0.6b",
+  "model": "/home/d.ramos/text2cad/outputs/train/pilot-sft-qwen3-0.6b/final",
+  "backend": "vllm",
+  "prompt_style": "native",
+  "chat_template_kwargs": {
+   "enable_thinking": false
+  },
+  "sampling": {
+   "temperature": 0.0,
+   "max_tokens": 2048
+  },
+  "stage": "sft",
+  "base_model": "Qwen/Qwen3-0.6B",
+  "train_run": "pilot-sft-qwen3-0.6b",
+  "step": 624,
+  "engine": {},
+  "api": {}
+ },
+ "metrics": {
+  "overall": {
+   "n": 800,
+   "harness_errors": 0,
+   "ir": 0.0024999999999999467,
+   "ir_first": 0.0024999999999999467,
+   "iou": 0.992506194426215,
+   "iou_all": 0.9900249289401495,
+   "iou_median": 1.0,
+   "cd": 9.673388739584503,
+   "cd_median": 8.94970512641348,
+   "dim_err_median": 0.0
+  },
+  "groups": {
+   "beam_profile": {
+    "n": 48,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 0.9538864217904078,
+    "iou_all": 0.9538864217904078,
+    "iou_median": 1.0,
+    "cd": 10.51553247413503,
+    "cd_median": 9.441680391482542,
+    "dim_err_median": 0.0
+   },
+   "boss_plate": {
+    "n": 46,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 1.0,
+    "iou_all": 1.0,
+    "iou_median": 1.0,
+    "cd": 8.750411328977453,
+    "cd_median": 8.916488991667784,
+    "dim_err_median": 0.0
+   },
+   "cbore_plate": {
+    "n": 46,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 0.9901476850126706,
+    "iou_all": 0.9901476850126706,
+    "iou_median": 1.0,
+    "cd": 8.817354101838779,
+    "cd_median": 8.27673585856092,
+    "dim_err_median": 0.0
+   },
+   "flange": {
+    "n": 48,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 0.9999839525924755,
+    "iou_all": 0.9999839525924755,
+    "iou_median": 1.0,
+    "cd": 9.113455161486463,
+    "cd_median": 8.917692177863323,
+    "dim_err_median": 1.113352531102176e-08
+   },
+   "gusset_bracket": {
+    "n": 46,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 1.0,
+    "iou_all": 1.0,
+    "iou_median": 1.0,
+    "cd": 9.52720425665572,
+    "cd_median": 9.275982757607219,
+    "dim_err_median": 0.0
+   },
+   "l_bracket": {
+    "n": 48,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 0.9999914109136223,
+    "iou_all": 0.9999914109136223,
+    "iou_median": 1.0,
+    "cd": 9.320750973906835,
+    "cd_median": 9.4265937026741,
+    "dim_err_median": 0.0
+   },
+   "loft": {
+    "n": 46,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 0.9999999782815455,
+    "iou_all": 0.9999999782815455,
+    "iou_median": 1.0,
+    "cd": 9.559766936076189,
+    "cd_median": 9.826268538990606,
+    "dim_err_median": 0.0
+   },
+   "open_box": {
+    "n": 48,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 1.0,
+    "iou_all": 1.0,
+    "iou_median": 1.0,
+    "cd": 12.585126356687887,
+    "cd_median": 12.436873360491418,
+    "dim_err_median": 0.0
+   },
+   "plate_holes": {
+    "n": 48,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 0.9864566938391098,
+    "iou_all": 0.9864566938391098,
+    "iou_median": 1.0,
+    "cd": 6.795301434903803,
+    "cd_median": 6.351417048413866,
+    "dim_err_median": 0.0
+   },
+   "polar_pattern": {
+    "n": 46,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 1.0,
+    "iou_all": 1.0,
+    "iou_median": 1.0,
+    "cd": 8.451320886047743,
+    "cd_median": 8.203430355068704,
+    "dim_err_median": 1.1970081623836637e-08
+   },
+   "polygon_prism": {
+    "n": 48,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 0.9999817216647898,
+    "iou_all": 0.9999817216647898,
+    "iou_median": 1.0,
+    "cd": 9.883487743322808,
+    "cd_median": 9.62385484162766,
+    "dim_err_median": 5.8576226514754486e-09
+   },
+   "revolved": {
+    "n": 46,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 0.9801536419934576,
+    "iou_all": 0.9801536419934576,
+    "iou_median": 1.0,
+    "cd": 12.969848256186479,
+    "cd_median": 9.264826256144943,
+    "dim_err_median": 1.113352531102176e-08
+   },
+   "slotted_block": {
+    "n": 48,
+    "harness_errors": 0,
+    "ir": 0.04166666666666663,
+    "ir_first": 0.04166666666666663,
+    "iou": 0.9757463814420602,
+    "iou_all": 0.9350902822153077,
+    "iou_median": 1.0,
+    "cd": 11.282873997613667,
+    "cd_median": 8.961566091229464,
+    "dim_err_median": 0.0
+   },
+   "stepped_shaft": {
+    "n": 48,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 1.0,
+    "iou_all": 1.0,
+    "iou_median": 1.0,
+    "cd": 9.369351040565055,
+    "cd_median": 9.422949392451622,
+    "dim_err_median": 1.0327993815878294e-08
+   },
+   "swept_elbow": {
+    "n": 46,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 1.0,
+    "iou_all": 1.0,
+    "iou_median": 1.0,
+    "cd": 6.203816390385259,
+    "cd_median": 6.476376378622905,
+    "dim_err_median": 1.867396444104028e-08
+   },
+   "tube_flange": {
+    "n": 48,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 0.9868195817527577,
+    "iou_all": 0.9868195817527577,
+    "iou_median": 1.0,
+    "cd": 12.842313050488837,
+    "cd_median": 10.54342081210697,
+    "dim_err_median": 9.075427436615751e-09
+   },
+   "wedge": {
+    "n": 46,
+    "harness_errors": 0,
+    "ir": 0.0,
+    "ir_first": 0.0,
+    "iou": 1.0,
+    "iou_all": 1.0,
+    "iou_median": 1.0,
+    "cd": 8.327598169796778,
+    "cd_median": 8.316092278722603,
+    "dim_err_median": 0.0
+   }
+  }
+ },
+ "errors": {
+  "first_attempt": {
+   "ok": 798,
+   "runtime_error": 2
+  },
+  "final": {
+   "ok": 798,
+   "runtime_error": 2
+  }
+ },
+ "protocol": {
+  "prompt_style": "native",
+  "retries": 0,
+  "system_prompt_sha1": "07bf77d967",
+  "res": 256,
+  "n_points": 30000,
+  "timeout": 60.0
+ },
+ "timing": {
+  "generate_s": 3.0,
+  "verify_s": 24.6,
+  "total_s": 27.6
+ },
+ "tags": [],
+ "note": "",
+ "partial": false,
+ "host": "n001",
+ "git": {
+  "commit": null,
+  "dirty": false
+ },
+ "t2c_version": "0.1.0"
+}

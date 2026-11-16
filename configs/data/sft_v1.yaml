@@ -1,0 +1,19 @@
+# SFT mixture v1.  Build with:  t2c data build configs/data/sft_v1.yaml
+name: sft/v1
+kind: sft
+seed: 0
+
+# Objects (DeepCAD model ids) that must never be trained on: every CADPrompt benchmark
+# object and the whole validation/test splits of Text-to-CadQuery (the `deepcad` benchmark
+# is drawn from its test split). Validation rows are taken only from these held-out objects.
+holdout: ["bench:cadprompt", "t2cq:val", "t2cq:test"]
+
+train:
+  - {source: t2cq, split: train}            # ~95k DeepCAD parts, Text2CAD-style descriptions
+  - {source: cadcoder, split: train_high}   # ~8k verified, expert-level (coordinates, Euler angles)
+  - {source: synth, split: train}           # procedural mm-scale parts, geo + seq prompts
+  # - {source: cadcoder, split: train_middle, n: 20000}   # more of the same distribution, lower quality
+
+val:
+  - {source: t2cq, split: val, n: 400}
+  - {source: synth, split: val, n: 200}

@@ -1,0 +1,99 @@
+{
+ "run_id": "20261115-214634-cqe-sft-qwen3-1.7b-v1",
+ "created": "2026-11-15T21:46:34",
+ "benchmark": "cqe",
+ "bench_sha1": "309b355ccbfe",
+ "model": {
+  "name": "sft-qwen3-1.7b-v1",
+  "model": "/home/d.ramos/text2cad/outputs/train/sft-qwen3-1.7b-v1/final",
+  "backend": "vllm",
+  "prompt_style": "native",
+  "chat_template_kwargs": {
+   "enable_thinking": false
+  },
+  "sampling": {
+   "temperature": 0.0,
+   "max_tokens": 2048
+  },
+  "stage": "sft",
+  "base_model": "Qwen/Qwen3-1.7B",
+  "train_run": "sft-qwen3-1.7b-v1",
+  "step": 9104,
+  "engine": {},
+  "api": {}
+ },
+ "metrics": {
+  "overall": {
+   "n": 25,
+   "harness_errors": 0,
+   "ir": 0.36,
+   "ir_first": 0.36,
+   "iou": 0.571346936429635,
+   "iou_all": 0.3656620393149664,
+   "iou_median": 0.6378210948919287,
+   "cd": 116.34818438491352,
+   "cd_median": 54.151130444112056,
+   "dim_err_median": 0.04826004230353108,
+   "pass_rate": 0.2,
+   "watertight_rate": 0.64,
+   "single_component_rate": 0.48,
+   "bbox_accurate_rate": 0.4,
+   "volume_passed_rate": 0.24,
+   "chamfer_passed_rate": 0.32,
+   "hausdorff_passed_rate": 0.2
+  },
+  "groups": {
+   "all": {
+    "n": 25,
+    "harness_errors": 0,
+    "ir": 0.36,
+    "ir_first": 0.36,
+    "iou": 0.571346936429635,
+    "iou_all": 0.3656620393149664,
+    "iou_median": 0.6378210948919287,
+    "cd": 116.34818438491352,
+    "cd_median": 54.151130444112056,
+    "dim_err_median": 0.04826004230353108,
+    "pass_rate": 0.2,
+    "watertight_rate": 0.64,
+    "single_component_rate": 0.48,
+    "bbox_accurate_rate": 0.4,
+    "volume_passed_rate": 0.24,
+    "chamfer_passed_rate": 0.32,
+    "hausdorff_passed_rate": 0.2
+   }
+  }
+ },
+ "errors": {
+  "first_attempt": {
+   "ok": 16,
+   "runtime_error": 9
+  },
+  "final": {
+   "ok": 16,
+   "runtime_error": 9
+  }
+ },
+ "protocol": {
+  "prompt_style": "native",
+  "retries": 0,
+  "system_prompt_sha1": "07bf77d967",
+  "res": 256,
+  "n_points": 30000,
+  "timeout": 60.0
+ },
+ "timing": {
+  "generate_s": 0.9,
+  "verify_s": 24.5,
+  "total_s": 25.4
+ },
+ "tags": [],
+ "note": "",
+ "partial": false,
+ "host": "n001",
+ "git": {
+  "commit": null,
+  "dirty": false
+ },
+ "t2c_version": "0.1.0"
+}

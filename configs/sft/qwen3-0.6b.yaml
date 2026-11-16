@@ -1,0 +1,34 @@
+# Stage 1 -- SFT, Qwen3-0.6B: the fast config for learning the plumbing (~minutes per epoch fraction).
+#   scripts/submit.sh --gpus 1 --time 1-00:00:00 --name sft-q3-0.6b -- t2c train sft configs/sft/qwen3-0.6b.yaml
+run_name: sft-qwen3-0.6b-v1
+base_model: Qwen/Qwen3-0.6B
+chat_template_kwargs:
+  enable_thinking: false        # answer directly; the same kwargs are stored with the checkpoint and reused at inference
+
+data:
+  dataset: sft/v1               # built by `t2c data build configs/data/sft_v1.yaml`
+  max_length: 2048              # tokens (prompt + script); longer samples are dropped, not truncated
+
+weights_dtype: float32          # full fine-tuning: keep fp32 master weights, autocast to bf16
+report_to: [tensorboard]        # add "wandb" or "trackio" if you use them
+seed: 0
+
+train:                          # passed to trl.SFTConfig / transformers.TrainingArguments
+  num_train_epochs: 2
+  per_device_train_batch_size: 64
+  gradient_accumulation_steps: 1
+  learning_rate: 2.0e-5
+  lr_scheduler_type: cosine
+  warmup_steps: 0.03             # a float < 1 is a fraction of total steps
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  bf16: true
+  train_sampling_strategy: group_by_length   # batches of similar length: less padding
+  logging_steps: 20
+  eval_strategy: steps
+  eval_steps: 500
+  per_device_eval_batch_size: 64
+  save_strategy: steps
+  save_steps: 1000
+  save_total_limit: 6
+  dataloader_num_workers: 4
