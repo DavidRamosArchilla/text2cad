@@ -12,3 +12,6 @@ clusters/
 # results registry: summaries are tracked (they sync between clusters through git),
 # per-sample dumps stay local
 results/runs/*/samples.jsonl.gz
+
+# Obsidian opens docs/ as a vault and keeps per-user state there
+docs/.obsidian/

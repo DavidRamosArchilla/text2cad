@@ -368,4 +368,5 @@ src/t2c/train/      SFT, GRPO and the in-training benchmark callback
 configs/            models, data recipes, training configs, cluster profiles, published references
 scripts/            bootstrap, env, Slurm launcher, checkpoint sweep
 tests/              verifier, sandbox, eval loop, dataset assembly, generator (pytest)
+docs/               explanations of every module, dataset, benchmark and test (open as an Obsidian vault)
 ```
