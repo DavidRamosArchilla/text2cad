@@ -65,6 +65,24 @@ pts = [(bolt_circle_d / 2 * math.cos(math.radians(i * 60)), ...) for i in range(
 result = result.faces(">Z").workplane().pushPoints(pts).circle(bolt_d / 2).cutThruAll()
 ```
 
+## Who wrote it
+The generator — part templates, sentence templates and code templates — was written by
+Claude, not by a person and not by an LLM
+at generation time: `t2c data synth` is plain Python that draws random dimensions and
+fills in templates. Automated checks confirm that each script builds what its text
+describes (see Guarantees and [[test_synth]]). Nobody has reviewed whether the
+descriptions read naturally or whether the parts are realistic designs; a bug in a
+template would be repeated in every part of that family. Read a sample before relying on it:
+
+```bash
+python - <<'PY'
+import json, random
+rows = [json.loads(l) for l in open("data/processed/synth/train.jsonl")]
+for r in random.sample(rows, 3):
+    print(r["family"], r["style"], "\n", r["text"], "\n", r["code"], "\n" + "-" * 60)
+PY
+```
+
 ## Guarantees
 Every part is executed and kept only if it is one watertight solid whose bounding box
 (and, when known, volume) equals what the generator intended. Train / val / test are
